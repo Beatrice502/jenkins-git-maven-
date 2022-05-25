@@ -1,0 +1,78 @@
+# we will deploy an application using Jenkins, Maven and Git
+You should have s maven project already running on github
+
+#set up jenkins by running the following Docker compose.yml file on your Docker enabled system
+
+#Run the following docker compose file:
+
+version: "3.2"
+ 
+services:
+   jenkins:
+       image: jenkinsci/jenkins:lts
+       container_name: jenkins-container
+       restart: always
+       ports:
+           - "8080:8080"
+           - '50000:50000'
+       volumes:
+       - '/var/run/docker.sock:/var/run/docker.sock'
+       - '/data/jenkins/jenkins_home:/var/jenkins_home'
+       environment:
+       - "JENKINS_OPTS=--prefix=/jenkins"
+       
+ # After installation of jenkins
+ # Do curl ifconfig.co to get your ip address and successfully log into the browser,installing the neccessary plugins.
+ # Start your first jenkins job by following the below steps
+  
+ # New item--->New job ===>My-first-job ====>Freestyle project===>ok (Under Jenkins > My_First_Jenkins_Job, enter a short description into the text field for future reference)
+ # Built===>Exercute shell script===>enter the below command in the text box, and save the configuration, as shown in the figure:
+ 
+ 
+$ touch test-file.txt
+$ echo "Hello World" > test-file.txt
+$ cat test-file.txt
+$ save====>build now===>console output==> success indicates your job went through.
+
+Install and Configure Maven in Jenkins
+In this step, we are going to install and configure Maven in Jenkins. For this, we have to download the Maven binary from the official website. At the time of writing, the Apache Maven version is 3.6.3.
+
+The guide is assuming that you are running Jenkins through Docker, so to install Maven binary, you need to follow the below-mentioned steps:
+
+$ docker exec -it jenkins-container /bin/bash
+ 
+$ cd /var/jenkins_home
+ 
+$ wget http://mirrors.estointernet.in/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+ 
+$ tar -xvzf apache-maven-3.6.3-bin.tar.gz && cd apache-maven-3.6.3
+
+
+Now as you have downloaded the required binary, copy the path for later use:
+
+$ pwd
+/var/jenkins_home/apache-maven-3.6.3
+
+# Install Maven Plugins in Jenkins
+
+To install Maven plugins. Go to Dashboard > Manage Jenkins > Manage Plugins > Available and search for Maven, as shown below:
+
+$ Available==>maven === maven intergration == maven invoker === install without restart
+
+Now, let’s set the Maven path which you copied from the Jenkins's Container. Go to Dashboard > Manage Jenkins > Global Tool Configuration and find Maven to set the extracted binary home directory path, which is, /var/jenkins_home/apache-maven-3.6.3
+
+& maven=== MAVEN_HOME == copy and paste == /var/jenkins_home/apache-maven-3.6.3
+
+$ save and move to the next step where you will use maven to build the job
+
+
+# Next step:
+$ Dashboard === Nedw item === My-first-maven-job=== maven project===ok . 
+# NEXT STEP
+
+$ Source code management== Git === enter your git repositiry under url===bild periodically == 
+Now find the Build section. In the Root POM field, you have to provide the path to pom.xml(pom.xml) ===install clean package===save.
+
+
+
+
