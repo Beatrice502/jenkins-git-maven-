@@ -1,4 +1,8 @@
-# we will deploy an application using Jenkins, Maven and Git
+#Created by :Beatrice Njualem
+May 26, 2020
+
+
+#we will deploy an application using Jenkins, Maven and Git
 You should have s maven project already running on github
 
 #set up jenkins by running the following Docker compose.yml file on your Docker enabled system
